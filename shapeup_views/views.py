@@ -81,8 +81,8 @@ class FormView(TemplateView):
 
     def get_form_class(self):
         if not self.form_class:
-            msg  = "'%s' must either define 'form_class' or both 'model' and "
-            msg += "'fields', or override 'get_form_class()'"
+            msg  = "'%s' must either define 'form_class' "
+            msg += "or override 'get_form_class()'"
             raise ImproperlyConfigured(msg % self.__class__.__name__)
         return self.form_class
 
