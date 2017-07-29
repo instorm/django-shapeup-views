@@ -21,7 +21,12 @@ class MultipleObjectMixin:
             raise ImproperlyConfigured(msg % self.__class__.__name__)
 
     def list_objects(self):
-        return self.get_queryset()
+        try:
+            return self.get_queryset()
+        except InproperlyConfigured as e:
+            msg  = "'%s' must either override 'list_objects()' or "
+            msg += "'get_queryset()', or define 'queryset'"
+            raise ImproperlyConfigured(msg % self.__class__.__name__)
 
     def paginate_queryset(self, queryset, page_size):
         paginator = self.get_paginator(queryset, page_size)
