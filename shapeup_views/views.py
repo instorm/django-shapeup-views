@@ -1,4 +1,5 @@
 import copy
+from django.core.exceptions import ImproperlyConfigured
 from django.shortcuts import redirect
 from django.http import Http404
 from django.template.response import TemplateResponse
