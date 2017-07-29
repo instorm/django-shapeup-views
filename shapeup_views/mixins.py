@@ -23,7 +23,7 @@ class MultipleObjectMixin:
     def list_objects(self):
         try:
             return self.get_queryset()
-        except InproperlyConfigured as e:
+        except ImproperlyConfigured as e:
             msg  = "'%s' must either override 'list_objects()' or "
             msg += "'get_queryset()', or define 'queryset'"
             raise ImproperlyConfigured(msg % self.__class__.__name__)
