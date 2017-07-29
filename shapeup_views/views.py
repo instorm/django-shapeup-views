@@ -117,11 +117,10 @@ class FormView(TemplateView):
         return self.render_to_response(context)
 
     def get_success_url(self):
-        try:
-            return self.success_url
-        except AttributeError:
+        if not self.success_url:
             msg  = "No URL to redirect to. '%s' must provide 'success_url'."
             raise ImproperlyConfigured(msg % self.__class__.__name__)
+        return self.success_url
 
 class CreateView(FormView):
 
