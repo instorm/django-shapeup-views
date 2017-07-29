@@ -73,7 +73,7 @@ class FormView(TemplateView):
     def get_template_names(self):
         if self.is_preview():
             if not self.preview_template_name:
-                msg  = "'%s' must either define 'template_name'"
+                msg  = "'%s' must either define 'preview_template_name'"
                 msg += " or override 'get_template_names()'"
                 raise ImproperlyConfigured(msg % self.__class__.__name__)
             return [self.preview_template_name]
