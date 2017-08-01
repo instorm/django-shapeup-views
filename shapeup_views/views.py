@@ -40,7 +40,17 @@ class ListView(MultipleObjectMixin, TemplateView):
 class DetailView(SingleObjectMixin, TemplateView):
     pass
 
-class DeleteView(SingleObjectMixin, TemplateView):
+class ProcessView(TemplateView):
+
+    success_url = None
+
+    def get_success_url(self):
+        if not self.success_url:
+            msg  = "No URL to redirect to. '%s' must provide 'success_url'."
+            raise ImproperlyConfigured(msg % self.__class__.__name__)
+        return self.success_url
+
+class DeleteView(SingleObjectMixin, ProcessView):
 
     success_url = None
 
@@ -53,17 +63,9 @@ class DeleteView(SingleObjectMixin, TemplateView):
        self.delete_object(**lookup)
        return redirect(self.get_success_url())
 
-    def get_success_url(self):
-        try:
-            return self.success_url
-        except AttributeError:
-            msg  = "No URL to redirect to. '%s' must provide 'success_url'."
-            raise ImproperlyConfigured(msg % self.__class__.__name__)
-
-class FormView(TemplateView):
+class FormView(ProcessView):
 
     form_class = None
-    success_url = None
 
     preview_template_name = None
 
@@ -115,12 +117,6 @@ class FormView(TemplateView):
     def form_invalid(self, form):
         context = self.get_context_data(form=form)
         return self.render_to_response(context)
-
-    def get_success_url(self):
-        if not self.success_url:
-            msg  = "No URL to redirect to. '%s' must provide 'success_url'."
-            raise ImproperlyConfigured(msg % self.__class__.__name__)
-        return self.success_url
 
 class CreateView(FormView):
 
