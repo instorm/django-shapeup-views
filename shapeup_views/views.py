@@ -54,9 +54,12 @@ class DeleteView(SingleObjectMixin, ProcessView):
 
     success_url = None
 
+    def get_object(self, **kwargs):
+        return None
+
     def delete_object(self, **kwargs):
-        obj = self.get_object()
-        obj.delete()
+        msg = "'%s' must override 'delete_object(self, **kwargs)'"
+        raise NotImplementedError(msg % self.__class__.__name__)
 
     def post(self, request, *args, **kwargs):
        lookup = self.get_lookup_param() 
